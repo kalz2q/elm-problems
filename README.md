@@ -16,8 +16,8 @@ if it is error , edit Hoge.elm and save and try the function again.
 
 elm repl is automatically updated if imported file changes.
 
-## hello elm world
+the problems are from various sources like 99 lisp problems, 4clojure, etc.
 
-## True or False
+anyway lets begin.
 
-## 
+## Find the last element of a list (L01)
