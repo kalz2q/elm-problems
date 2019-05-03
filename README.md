@@ -1,6 +1,6 @@
 # elm-problems
 
-idea is to list simple problems and answers in elm without using elm architecture or browser.
+idea is to list simple problems and answers in elm 0.19 without using elm architecture or browser.
 
 everything is function in elm so let's write functions in Hoge.elm and start 'elm repl' elm and import the file
 
