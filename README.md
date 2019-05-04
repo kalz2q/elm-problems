@@ -43,6 +43,8 @@ solution
 4 : Int
 > modBy 2 9
 1 : Int
+> remainderBy 3 9
+0 : Int
 >  3 ^ 2
 9 : number
 ```
