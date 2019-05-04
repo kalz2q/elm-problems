@@ -41,12 +41,12 @@ solution
 4.5 : Float
 > 9 // 2
 4 : Int
-> modBy 2 9
-1 : Int
-> remainderBy 3 9
-0 : Int
 >  3 ^ 2
 9 : number
+> modBy 3 -7      
+2 : Int
+> remainderBy 3 -7
+-1 : Int
 ```
 ## Write add function
 ```
@@ -107,12 +107,16 @@ True : Bool
 ```
 ## Play on tuples
 ```
+> (3, 4)
+(3,4) : ( number, number1 )
+> Tuple.pair 3 4
+(3,4) : ( number, number1 )
+```
+```
 -- Hoge.elm
-
 goodName name =
     if String.length name <= 20 then
         ( True, "name accepted!" )
-
     else
         ( False, "name was too long; please limit it to 20 characters" )
 ```
@@ -167,6 +171,15 @@ fib n =
 ```
 > Hoge.fib 10
 89 : number
+```
+## pi and e
+```
+> pi
+3.141592653589793 : Float
+> e
+2.718281828459045 : Float
+> "Pi is " ++ String.fromFloat pi ++ " (give or take)"  
+"Pi is 3.141592653589793 (give or take)" : String
 ```
 ## Play on custum types
 ```
