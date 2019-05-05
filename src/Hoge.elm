@@ -1,5 +1,10 @@
 -- Hoge.elm
 module Hoge exposing (..)
+
+
+
+
+
 fib n =
     case n of
         0 -> 1

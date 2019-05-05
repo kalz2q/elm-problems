@@ -186,6 +186,50 @@ fib n =
 > type Money = Dollar | EURO | JPY
 > Dollar
 Dollar : Money
+> type Height = Inches Int | Meters Float
+> Inches 3
+Inches 3 : Height
+> Meters
+<function> : Float -> Height
+> type Location = Nowhere | Somewhere Float Float
+> Somewhere
+<function> : Float -> Float -> Location
+```
+## Maybe
+```
+> Nothing
+Nothing : Maybe a
+> Just 
+<function> : a -> Maybe a
+> Just 3
+Just 3 : Maybe number
+```
+## Result
+```
+> Ok
+<function> : value -> Result error value
+> Ok "this is ok"
+Ok ("this is ok") : Result error String
+> Err
+<function> : error -> Result error value
+> Err "this is error"
+Err ("this is error") : Result String value
+```
+## String functions
+```
+> String.reverse "this"
+"siht" : String
+> String.repeat 3 "this"
+"thisthisthis" : String
+> String.join " is " ["this", "a pen"]
+"this is a pen" : String
+```
+## pipeline
+'''
+> sanitize input = input |> String.trim |> String.toInt
+<function> : String -> Maybe Int
+> sanitize " 3 "
+Just 3 : Maybe Int
 ```
 
 ## Find the last element of a list (L01)
