@@ -224,12 +224,39 @@ Err ("this is error") : Result String value
 > String.join " is " ["this", "a pen"]
 "this is a pen" : String
 ```
-## pipeline
-'''
+## Pipeline
+```
 > sanitize input = input |> String.trim |> String.toInt
 <function> : String -> Maybe Int
 > sanitize " 3 "
 Just 3 : Maybe Int
+> sanitize2 input = String.toInt (String.trim input)
+<function> : String -> Maybe Int
+> sanitize2 " 4 "
+Just 4 : Maybe Int
 ```
+## Type Inference
+```
+> toFullName person = person.firstName ++ " " ++ person.lastName
+<function> : { a | firstName : String, lastName : String } -> String
+> fullName = toFullName { firstName = "Hermann", lastName = "Hesse" }
+"Hermann Hesse" : String
+```
+```
+> not True
+False : Bool
+> round 3.1415
+3 : Int
+["Alice","Bob"] : List String
+> [1.0, 8.6, 42.1]
+[1,8.6,42.1] : List Float
+> []
+[] : List a
+> 3::[]
+[3] : List number
+> String.length
+<function> : String -> Int
+> String.length " If You Are Not a Conservative at 35 You Have No Brain."
+55 : Int
 
 ## Find the last element of a list (L01)
