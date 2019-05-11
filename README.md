@@ -120,6 +120,16 @@ goodName name =
 > Hoge.goodName "tom"
 (True,"name accepted!") : ( Bool, String )
 ```
+```
+> multipley3rd (x, y, z) = x * y * z
+<function> : ( number, number, number ) -> number
+> multipley3rd (6, 7, 2)
+84 : number
+> multiply2d someTuple = let (x, y) = someTuple in x * y
+<function> : ( number, number ) -> number
+> multiply2d (5, 10)
+50 : number
+```
 ## Play on records
 ```
 > point = { x = 3, y = 4 }
