@@ -254,4 +254,22 @@ False : Bool
 > String.length " If You Are Not a Conservative at 35 You Have No Brain."
 55 : Int
 
+## Character literal
+```
+> 'a'
+'a' : Char
+> "a"
+"a" : String
+> ''
+-- PARSE ERROR
+```
+## Shadowing
+```
+> let x = 3 in x ^3
+27 : number
+> x = 4
+4 : number
+> let x = 3 in x ^3
+-- SHADOWING
+```
 ## Find the last element of a list (L01)
