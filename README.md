@@ -1,28 +1,23 @@
 # elm-problems
 
-idea is to list simple problems and answers in elm 0.19 without using elm architecture or browser.
+Idea is to list simple problems and answers in elm 0.19 without using elm architecture or browser.
 
-everything is function in elm so let's write functions in Hoge.elm and start 'elm repl' elm and import the file
+I mean to use `elm repl` mainly.
+
+When functions are not written in one line, use editor and include the file like so:
 
 ```
 import Hoge
-```
-and try the function like so
 
-```
 Hoge.someFnction x
 ```
-if it is error , edit Hoge.elm and save and try the function again.
+If it is error , edit Hoge.elm and save and try the function again.
 
-elm repl is automatically updated if imported file changes.
+`elm repl` is automatically updated if imported file changes.
 
-the problems are from various sources like 99 lisp problems, 4clojure, etc.  
-for reference , Lnn is 99 lisp problems 4nnn is 4clojure.
-
-anyway lets begin.
+Anyway lets begin.
 
 ## Put strings together
-solution
 ```
 > "hello" ++ "world"
 "helloworld" : String

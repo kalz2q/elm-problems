@@ -1,7 +1,7 @@
 -- Hoge.elm
 module Hoge exposing (..)
 
-toFullName person = person.firstName ++ " " person.lastName
+toFullName person = person.firstName ++ " " ++ person.lastName
 
 
 
