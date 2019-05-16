@@ -263,7 +263,7 @@ False : Bool
 <function> : String -> Int
 > String.length " If You Are Not a Conservative at 35 You Have No Brain."
 55 : Int
-
+```
 ## Character literal
 ```
 > 'a'
@@ -283,3 +283,126 @@ False : Bool
 -- SHADOWING
 ```
 ## Find the last element of a list (L01)
+```
+> myLast a = List.head <| List.reverse a
+> import Maybe
+> Maybe.withDefautl 0 <| myLast [1,2,3,4]
+4 : number
+```
+```
+> const a b = a                             
+<function> : a -> b -> a
+> myLast = List.foldl (const) 0
+<function> : List number -> number
+> myLast [1,2,3,4]
+4 : number
+```
+## Find the last but one elment of a list (L02)
+```
+myTail a =
+    case a of
+        x :: xs ->
+            xs
+
+        [] ->
+            []
+
+> myButLast a = Maybe.withDefault 0 <| List.head <| myTail <| List.reverse a 
+> myButLast [1,2,3,4]
+3 : number
+```
+## Find the K'th element of a list. The first element in the list is number 1 (L03)
+Example:
+```
+elementAt [1,2,3,4] 3
+3 : number
+```
+```
+elementAt l a =
+    if List.length l <= a then
+        0
+
+    else
+        let pairs =
+               List.indexedMap Tuple.pair l
+
+            selectPair num pair =
+                          Tuple.first pair == num - 1
+```
+##  Find the number of elements of a list (L04)
+```
+> List.length [1,2,3,4]
+4 : Int
+> String.length "hello"
+5 : Int
+```
+```
+myLength a =
+    case a of
+        x :: xs ->
+            1 + myLength xs
+
+        [] ->
+            0
+
+> myLength [1,2,3,4]
+4 : number
+```
+```
+> myLength <| String.toList "hello"
+5 : number
+```
+## Reverse a list (L05)
+```
+> String.reverse "A man, a plan, a canal, panama!" 
+"!amanap ,lanac a ,nalp a ,nam A" : String
+> List.reverse [1,2,3,4]
+[4,3,2,1] : List number
+```
+```
+> myReverse = List.foldl (::) []
+<function> : List a -> List a
+> myReverse [1,2,3,4]           
+[4,3,2,1] : List number
+> String.fromList <| myReverse <| String.toList "A man, a plan, a canal, panama!"
+"!amanap ,lanac a ,nalp a ,nam A" : String
+```
+## Find out whether a list is a palindrome. A palindrome can be read forward or backward; e.g. (x a m a x) (L06)
+Example:
+```
+λ> isPalindrome [1,2,3]
+False
+λ> isPalindrome "madamimadam"
+True
+λ> isPalindrome [1,2,4,8,16,8,4,2,1]
+True
+```
+```
+> isPalindrome xs = (==) xs  <| List.reverse xs                  
+<function> : List a -> Bool
+> isPalindromeString xs = (==) xs  <| String.fromList <| List.reverse <| String.toList xs
+<function> : String -> Bool
+> isPalindrome [1,2,3]
+False : Bool
+> isPalindromeString "madamimadam"
+True : Bool
+> isPalindrome [1,2,4,8,16,8,4,2,1]
+True : Bool
+```
+## Flatten a nested list structure (L07)
+Example:
+```
+* (my-flatten '(a (b (c d) e)))
+(A B C D E)
+```
+Unsolvable because Elm list is homogeneous and [1, [2, 3]] is not allowed.  In cases , following will do
+```
+> List.foldr (++) [] [[1,2],[3,4],[1,1]]
+[1,2,3,4,1,1] : List number
+```
+## Eliminate consecutive duplicates of list elements (L08)
+Example:
+```
+* (compress '(a a a a b c c a a d e e e e))
+(A B C A D E)
+```
