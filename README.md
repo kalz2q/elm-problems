@@ -430,7 +430,109 @@ Example:
 ["aaaa","b","cc","aa","d","eeee"]
 ```
 ```
+pack x =
+    List.foldr spanfunc [] x
 
+packString x = List.foldr spanfuncString [] x
 
+spanfunc x y =
+    case y of
+        [] ->
+            [ [ x ] ]
+
+        [ z :: zs ] ->
+            if x == Maybe.withDefault 99 (List.head (Maybe.withDefault [] (List.head y))) then
+                [ z :: z :: zs ]
+
+            else
+                [ [ x ], z :: zs ]
+
+        (a :: b) :: c :: d ->
+            if x == Maybe.withDefault 99 (List.head (Maybe.withDefault [] (List.head y))) then
+                (a :: a :: b) :: c :: d
+
+            else
+                [ x ] :: (a :: b) :: c :: d
+
+        [] :: a ->
+            a
+
+spanfuncString x y =
+    case y of
+        [] ->
+            [ [ x ] ]
+
+        [ z :: zs ] ->
+            if x == Maybe.withDefault "" (List.head (Maybe.withDefault [] (List.head y))) then
+                [ z :: z :: zs ]
+
+            else
+                [ [ x ], z :: zs ]
+
+        (a :: b) :: c :: d ->
+            if x == Maybe.withDefault "" (List.head (Maybe.withDefault [] (List.head y))) then
+                (a :: a :: b) :: c :: d
+
+            else
+                [ x ] :: (a :: b) :: c :: d
+
+        [] :: a ->
+            a
 ```
+```
+> Hoge.pack [1,1,1,1,2,3,3,1,1,4,5,5,5,5]
+[[1,1,1,1],[2],[3,3],[1,1],[4],[5,5,5,5]]
+    : List (List number)
 
+> Hoge.packString ["a", "a", "b", "c","c"]
+[["a","a"],["b"],["c","c"]]
+    : List (List String)
+```
+## Run-length encoding of a list. Use the result of problem P09 to implement the so-called run-length encoding data compression method. Consecutive duplicates of elements are encoded as lists (N E) where N is the number of duplicates of the element E (L10)
+Example:
+```
+* (encode '(a a a a b c c a a d e e e e))
+((4 A) (1 B) (2 C) (2 A) (1 D)(4 E))
+λ> encode "aaaabccaadeeee"
+[(4,'a'),(1,'b'),(2,'c'),(2,'a'),(1,'d'),(4,'e')]
+```
+```
+encode x = 
+  List.map encodeHelp (pack x)
+
+encodeHelp x = ((List.length x), Maybe.withDefault 0 (List.head x))
+```
+```
+> Hoge.encode [1,1,1,1,2,3,3,1,1,5,5,5,5,5]
+[(4,1),(1,2),(2,3),(2,1),(5,5)]
+    : List ( Int, number )
+```
+## Modified run-length encoding (L10)
+
+Modify the result of problem 10 in such a way that if an element has no duplicates it is simply copied into the result list. Only elements with duplicates are transferred as (N E) lists.
+
+Example:
+```
+* (encode-modified '(a a a a b c c a a d e e e e))
+((4 A) B (2 C) (2 A) D (4 E))
+
+λ> encodeModified "aaaabccaadeeee"
+[Multiple 4 'a',Single 'b',Multiple 2 'c',
+ Multiple 2 'a',Single 'd',Multiple 4 'e']
+ ```
+ Haskell and Elm is homegeneous lists and custome type is needed.
+ ```
+type ListItem a = Single a | Multiple Int a
+
+encodeModified x = 
+  let
+      encodeHelper (n,  y) = 
+        case n of
+          1 -> Single y
+          _ -> Multiple n y
+  in
+    List.map encodeHelper (encode x)
+
+ > Hoge.encodeModified [1,1,1,1,2,3,3,4,5,5,5,5]
+[Multiple 4 1,Single 2,Multiple 2 3,Single 4,Multiple 4 5]
+```
