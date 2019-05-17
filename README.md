@@ -507,7 +507,7 @@ encodeHelp x = ((List.length x), Maybe.withDefault 0 (List.head x))
 [(4,1),(1,2),(2,3),(2,1),(5,5)]
     : List ( Int, number )
 ```
-## Modified run-length encoding (L10)
+## Modified run-length encoding (L11)
 
 Modify the result of problem 10 in such a way that if an element has no duplicates it is simply copied into the result list. Only elements with duplicates are transferred as (N E) lists.
 
@@ -536,3 +536,62 @@ encodeModified x =
  > Hoge.encodeModified [1,1,1,1,2,3,3,4,5,5,5,5]
 [Multiple 4 1,Single 2,Multiple 2 3,Single 4,Multiple 4 5]
 ```
+## Decode a run-length encoded list (L12)
+Given a run-length code list generated as specified in problem 11. Construct its uncompressed version.
+Example:
+```
+λ> decodeModified 
+       [Multiple 4 'a',Single 'b',Multiple 2 'c',
+        Multiple 2 'a',Single 'd',Multiple 4 'e']
+"aaaabccaadeeee"
+```
+```
+decodeModified : List (ListItem a) -> List a
+decodeModified x =
+    let
+        decodeHelper y =
+            case y of
+                Single a ->
+                    [a]
+
+                Multiple n a ->
+                    List.repeat n a
+    in
+    List.concatMap decodeHelper x
+```
+```
+> decodeModified (encodeModified [1,1,1,1,2,3,3,4,5,5,5,5])     
+[1,1,1,1,2,3,3,4,5,5,5,5]
+    : List number
+
+```
+## Run-length encoding of a list (direct solution) (L12)
+Implement the so-called run-length encoding data compression method directly. I.e. don't explicitly create the sublists containing the duplicates, as in problem 9, but only count them. As in problem P11, simplify the result list by replacing the singleton lists (1 X) by X.
+
+Example:
+```
+* (encode-direct '(a a a a b c c a a d e e e e))
+((4 A) B (2 C) (2 A) D (4 E))
+λ> encodeDirect "aaaabccaadeeee"
+[Multiple 4 'a',Single 'b',Multiple 2 'c',
+ Multiple 2 'a',Single 'd',Multiple 4 'e']
+ ```
+```
+encodeDirect x =
+  let
+    encodeDirectHelper y z =
+      case z of
+        [] -> [(1,y)]
+        (a,b)::ys ->
+          if y == b then (1+a,y)::ys else (1,y)::(a,b)::ys
+
+  in
+    List.foldr encodeDirectHelper [] x 
+
+> Hoge.encodeDirect [1,1,1,1,2,3,3,4,5,5,5,5]
+[(4,1),(1,2),(2,3),(1,4),(4,5)]
+    : List ( number, number1 )
+```
+##
+
+
