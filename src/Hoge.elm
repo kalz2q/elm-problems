@@ -6,6 +6,12 @@ module Hoge exposing (..)
 import Debug
 import Dict exposing (Dict, empty, update)
 
+addToMaybe x m =
+  case m of
+    Nothing -> Just [x]
+    Just xs -> Just (xs ++ [x])
+
+
 groupBy : (a -> comparable)-> List a -> Dict comparable (List a)
 groupBy fun =
   let 
