@@ -6,6 +6,16 @@ module Hoge exposing (..)
 import Debug
 import Dict exposing (Dict, empty, update)
 
+
+
+
+
+compress x =
+  case x of
+    [] -> []
+    (y::z::zs) -> if y == z then compress (z::zs) else y::compress (z::zs)
+    [_] -> x
+
 addToMaybe x m =
   case m of
     Nothing -> Just [x]

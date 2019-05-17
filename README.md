@@ -405,4 +405,32 @@ Example:
 ```
 * (compress '(a a a a b c c a a d e e e e))
 (A B C A D E)
+λ> compress "aaaabccaadeeee"
+"abcade"
 ```
+```
+compress x =
+  case x of
+    [] -> []
+    (y::z::zs) -> if y == z then compress (z::zs) else y::compress (z::zs)
+    [_] -> x
+```
+```
+> String.fromList <| Hoge.compress <| String.toList "aaaabccaadeeee" 
+"abcade" : String
+```
+## Pack consecutive duplicates of list elements into sublists. If a list contains repeated elements they should be placed in separate sublists (L09)
+
+Example:
+```
+* (pack '(a a a a b c c a a d e e e e))
+((A A A A) (B) (C C) (A A) (D) (E E E E))
+λ> pack ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 
+             'a', 'd', 'e', 'e', 'e', 'e']
+["aaaa","b","cc","aa","d","eeee"]
+```
+```
+
+
+```
+
