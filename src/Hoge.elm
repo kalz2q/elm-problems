@@ -7,6 +7,13 @@ import Debug
 import Dict exposing (Dict, empty, update)
 
 
+spanfunc x y =
+  case y of
+    [] -> [[x]]
+    [z::zs] -> if x ==  Maybe.withDefault 99 (List.head ((Maybe.withDefault [] (List.head y)))) then [z::z::zs] else [[x], (z::zs)]
+    (a::b)::c::d ->  if x == Maybe.withDefault 99 (List.head ((Maybe.withDefault [] (List.head y)))) then ((a::a::b)::c::d)else ( [x] :: (a::b)::c::d)
+    []::a -> a
+
 
 
 
