@@ -57,6 +57,19 @@ Anyway lets begin.
 > isNegative -3
 True : Bool
 ```
+## Write `flip` function
+```
+> flip x y z = x z y
+<function> : (a -> b -> c) -> b -> a -> c
+> flip (>) 3 4
+True : Bool
+> (>) 3 4 
+False : Bool
+> List.map ((>) 3) [1,5,8]
+[True,False,False] : List Bool
+> List.map (flip (>) 3) [1,5,8]
+[False,True,True] : List Bool
+```
 ## Try anonymous (lambda) function
 ```
 > isNegative -3
@@ -565,7 +578,7 @@ decodeModified x =
     : List number
 
 ```
-## Run-length encoding of a list (direct solution) (L12)
+## Run-length encoding of a list (direct solution) (L13)
 Implement the so-called run-length encoding data compression method directly. I.e. don't explicitly create the sublists containing the duplicates, as in problem 9, but only count them. As in problem P11, simplify the result list by replacing the singleton lists (1 X) by X.
 
 Example:
@@ -592,6 +605,164 @@ encodeDirect x =
 [(4,1),(1,2),(2,3),(1,4),(4,5)]
     : List ( number, number1 )
 ```
-##
+## Duplicate the elements of a list (L14)
+Example:
+```
+* (dupli '(a b c c d))
+(A A B B C C C C D D)
+λ> dupli [1, 2, 3]
+[1,1,2,2,3,3]
+```
+```
+> List.concatMap (List.repeat 2) [1, 2, 3, 3, 4]
+[1,1,2,2,3,3,3,3,4,4]
+    : List number
+```
+```
+dupli x =
+  case x of
+    [] -> []
+    (y::ys) -> y::y::(dupli ys)
+```
+```
+> Hoge.dupli [1,2,3,3,4]
+[1,1,2,2,3,3,3,3,4,4]
+    : List number
+```
+```
+> List.concatMap (\n -> [n, n]) [1,2,3,3,4]
+[1,1,2,2,3,3,3,3,4,4]
+    : List number
+```
+## Replicate the elements of a list a given number of times (L15)
+
+Example:
+```
+* (repli '(a b c) 3)
+(A A A B B B C C C)
+Example in Haskell:
+
+λ> repli "abc" 3
+"aaabbbccc"
+```
+```
+> List.concatMap (List.repeat 3) [1,2,3]
+[1,1,1,2,2,2,3,3,3]
+    : List number
+```
+## Drop every N'th element from a list (L16)
+Example:
+```
+* (drop '(a b c d e f g h i k) 3)
+(A B D E G H K)
+λ> dropEvery "abcdefghik" 3
+"abdeghk"
+```
+```
+dropEvery x n =
+    let
+        dropEveryHelper y m i =
+            case y of
+                [] ->
+                    []
+
+                z :: zx ->
+                    (if remainderBy m i == 0 then
+                        []
+
+                     else
+                        [ z ]
+                    )
+                        ++ dropEveryHelper zx m (i + 1)
+    in
+    dropEveryHelper x n 1
+```
+```
+> dropEvery [1,2,3,4,5,6,7,8,9,10] 3
+[1,2,4,5,7,8,10]
+    : List number
+```
+## Split a list into two parts; the length of the first part is given (L17)
+Do not use any predefined predicates.
+Example:
+```
+* (split '(a b c d e f g h i k) 3)
+( (A B C) (D E F G H I K))
+λ> split "abcdefghik" 3
+("abc", "defghik")
+```
+```
+split x n =
+    case x of
+        [] ->
+            [ [], [] ]
+
+        y :: ys ->
+            let
+                zs =
+                    Maybe.withDefault [] (List.head (split ys (n - 1)))
+
+                zx =
+                    Maybe.withDefault [] (List.head (Maybe.withDefault [] (List.tail (split ys (n - 1)))))
+            in
+            if n > 0 then
+                [ y :: zs, zx ]
+
+            else
+                [ [], y :: ys ]
+```
+```
+> Hoge.split [1,2,3,4,5,6,7] 2
+[[1,2],[3,4,5,6,7]]
+    : List (List number)
+> Hoge.split [1,2,3,4,5,6,7] 5
+[[1,2,3,4,5],[6,7]]
+    : List (List number)
+> Hoge.split [1,2] 5
+[[1,2],[]] : List (List number)
+```
+## Extract a slice from a list (L18)
+Given two indices, i and k, the slice is the list containing the elements between the i'th and k'th element of the original list (both limits included). Start counting the elements with 1.
+
+Example:
+```
+* (slice '(a b c d e f g h i k) 3 7)
+(C D E F G)
+λ> slice ['a','b','c','d','e','f','g','h','i','k'] 3 7
+"cdefg"
+```
+```
+slice x m n =
+  take  (drop x m) (n - m)
+
+
+drop x n =
+   case x of
+     [] -> []
+     y::ys ->
+       if n > 0 then
+         drop ys (n-1)
+       else 
+         (y::ys)
+
+
+
+take x n =
+   case x of
+     [] -> []
+     y::ys ->
+       if n > 0 then
+         y :: take ys (n-1)
+       else 
+         []
+```
+```
+> List.range 0 10
+[0,1,2,3,4,5,6,7,8,9,10]
+    : List Int
+> slice (List.range 0 10)  2 5
+[2,3,4] : List Int
+```
+
 
 

@@ -6,17 +6,94 @@ module Hoge exposing (..)
 import Debug
 import Dict exposing (Dict, empty, update)
 
+slice x m n =
+  take  (drop x m) (n - m)
+
+
+drop x n =
+   case x of
+     [] -> []
+     y::ys ->
+       if n > 0 then
+         drop ys (n-1)
+       else 
+         (y::ys)
+
+
+
+take x n =
+   case x of
+     [] -> []
+     y::ys ->
+       if n > 0 then
+         y :: take ys (n-1)
+       else 
+         []
+
+
+split x n =
+    case x of
+        [] ->
+            [ [], [] ]
+
+        y :: ys ->
+            let
+                zs =
+                    Maybe.withDefault [] (List.head (split ys (n - 1)))
+
+                zx =
+                    Maybe.withDefault [] (List.head (Maybe.withDefault [] (List.tail (split ys (n - 1)))))
+            in
+            if n > 0 then
+                [ y :: zs, zx ]
+
+            else
+                [ [], y :: ys ]
+
+
+dropEvery x n =
+    let
+        dropEveryHelper y m i =
+            case y of
+                [] ->
+                    []
+
+                z :: zx ->
+                    (if remainderBy m i == 0 then
+                        []
+
+                     else
+                        [ z ]
+                    )
+                        ++ dropEveryHelper zx m (i + 1)
+    in
+    dropEveryHelper x n 1
+
+
+dupli x =
+    case x of
+        [] ->
+            []
+
+        y :: ys ->
+            y :: y :: dupli ys
+
 
 encodeDirect x =
-  let
-    encodeDirectHelper y z =
-      case z of
-        [] -> [(1,y)]
-        (a,b)::ys ->
-          if y == b then (1+a,y)::ys else (1,y)::(a,b)::ys
+    let
+        encodeDirectHelper y z =
+            case z of
+                [] ->
+                    [ ( 1, y ) ]
 
-  in
-    List.foldr encodeDirectHelper [] x 
+                ( a, b ) :: ys ->
+                    if y == b then
+                        ( 1 + a, y ) :: ys
+
+                    else
+                        ( 1, y ) :: ( a, b ) :: ys
+    in
+    List.foldr encodeDirectHelper [] x
 
 
 decodeModified : List (ListItem a) -> List a
@@ -25,7 +102,7 @@ decodeModified x =
         decodeHelper y =
             case y of
                 Single a ->
-                    [a]
+                    [ a ]
 
                 Multiple n a ->
                     List.repeat n a
