@@ -838,4 +838,17 @@ Example:
 [4,5,6,7,8,9]
 ```
 ```
-iterate elm
+> List.range 49
+<function> : Int -> List Int
+> List.range 4 9
+[4,5,6,7,8,9] : List Int
+```
+## Extract a given number of randomly selected elements from a list  (L23)
+Example:
+```
+* (rnd-select '(a b c d e f g h) 3)
+(E D A)
+λ> rnd_select "abcdefgh" 3 >>= putStrLn
+eda
+```
+

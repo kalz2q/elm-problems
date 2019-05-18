@@ -4,7 +4,19 @@
 module Hoge exposing (..)
 
 import Debug
+import Random
 import Dict exposing (Dict, empty, update)
+
+randomSelect x n = 
+  if n <= 0 then [] else
+    let
+     i = Random.int 1 (List.length x)
+    in 
+     (takeAt x i) ++ (randomSelect (removeAt x i) (n - 1))
+
+takeAt x n =
+  take (drop x n) 1
+
 
 insertAt x xs n =
   (take xs n) ++ (x::(drop xs n))
