@@ -763,6 +763,79 @@ take x n =
 > slice (List.range 0 10)  2 5
 [2,3,4] : List Int
 ```
+##  Rotate a list N places to the left (L19)
+Hint: Use the predefined functions length and (++).
+Examples:
+```
+* (rotate '(a b c d e f g h) 3)
+(D E F G H A B C)
 
+* (rotate '(a b c d e f g h) -2)
+(G H A B C D E F)
 
+λ> rotate ['a','b','c','d','e','f','g','h'] 3
+"defghabc"
 
+λ> rotate ['a','b','c','d','e','f','g','h'] (-2)
+"ghabcdef"
+```
+```
+rotate x n =
+  let 
+    i =  if n >= 0 then n else  (List.length x) + n
+  in 
+    (++) (drop x i)  (take x i)
+```
+```
+> list = List.range 0 10
+[0,1,2,3,4,5,6,7,8,9,10]
+    : List Int
+> Hoge.rotate list -2
+[9,10,0,1,2,3,4,5,6,7,8]
+    : List Int
+> Hoge.rotate list 3
+[3,4,5,6,7,8,9,10,0,1,2]
+    : List Int
+```
+## Remove the K'th element from a list (L20)
+Example:
+```
+* (remove-at '(a b c d) 2)
+(A C D)
+λ> removeAt 2 "abcd"
+('b',"acd")
+```
+```
+removeAt x n = (++) (take x n) (drop x (n+1))
+```
+```
+> Hoge.removeAt list 3
+[0,1,2,4,5,6,7,8,9,10]
+    : List Int
+```
+## Insert an element at a given position into a list (L21)
+Example:
+```
+* (insert-at 'alfa '(a b c d) 2)
+(A ALFA B C D)
+λ> insertAt 'X' "abcd" 2
+"aXbcd"
+```
+```
+insertAt x xs n =
+  (take xs n) ++ (x::(drop xs n))
+```
+```
+insertAt x xs n =
+  (take xs n) ++ (x::(drop xs n))
+```
+## Create a list containing all integers within a given range (L22)
+Example:
+```
+* (range 4 9)
+(4 5 6 7 8 9)
+λ> range 4 9
+[4,5,6,7,8,9]
+```
+```
+iterate elm

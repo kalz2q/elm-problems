@@ -6,6 +6,21 @@ module Hoge exposing (..)
 import Debug
 import Dict exposing (Dict, empty, update)
 
+insertAt x xs n =
+  (take xs n) ++ (x::(drop xs n))
+
+
+removeAt x n = (++) (take x n) (drop x (n+1))
+
+
+rotate x n =
+  let 
+    i =  if n >= 0 then n else  (List.length x) + n
+  in 
+    (++) (drop x i)  (take x i)
+
+
+
 slice x m n =
   take  (drop x m) (n - m)
 
