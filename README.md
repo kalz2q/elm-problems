@@ -43,6 +43,7 @@ Anyway lets begin.
 > remainderBy 3 -7
 -1 : Int
 ```
+`%`is not used.
 ## Write add function
 ```
 > add x y = x + y
@@ -843,6 +844,8 @@ Example:
 > List.range 4 9
 [4,5,6,7,8,9] : List Int
 ```
+
+bookmark
 ## Extract a given number of randomly selected elements from a list  (L23)
 Example:
 ```
@@ -851,4 +854,6 @@ Example:
 λ> rnd_select "abcdefgh" 3 >>= putStrLn
 eda
 ```
-
+bookmark => compose, combinator
+compose f g x = f (g x)
+combinator
